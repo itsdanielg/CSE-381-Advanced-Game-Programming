@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<!--
+    CSE 381 - HW 3 
+    
+    For testing rendering by Richard McKenna & ?
+    ©2018
+-->
+<html>
+    <head>
+        <title>CSE 381 - HW 3</title>
+
+        <!-- STANDARDIZE SOME PRESENTATION SETTINGS -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- DURING DEBUGGING THIS WILL HELP US TRACK DOWN ERRORS -->
+        <script src="js/webgl-debug/webgl-debug.js"></script>
+
+        <!-- OUR CUSTOM DATA STRUCTURES -->
+        <script src="js/wolfie3d/data_structures/List.js"></script>
+        <script src="js/wolfie3d/data_structures/ListQueue.js"></script>
+        
+        <!-- FOR LOADING FILES -->        
+        <script src="js/wolfie3d/files/FilesComponent.js"></script>
+        <script src="js/wolfie3d/files/ShaderFileLoader.js"></script>
+        <script src="js/wolfie3d/files/TextureFileLoader.js"></script>
+
+        <!-- FOR RENDERING -->
+        <script src="js/wolfie3d/graphics/GraphicsComponent.js"></script>
+        <script src="js/wolfie3d/graphics/Camera.js"></script>
+        <script src="js/wolfie3d/graphics/Frustum.js"></script>
+        <script src="js/wolfie3d/graphics/Model.js"></script>
+        <script src="js/wolfie3d/graphics/ModelType.js"></script>
+        <script src="js/wolfie3d/graphics/Shader.js"></script>
+        <script src="js/wolfie3d/graphics/TextRenderer.js"></script>
+        <script src="js/wolfie3d/graphics/Texture.js"></script>
+
+        <!-- FOR MATHEMATICAL CALCULATIONS -->
+        <script src="js/wolfie3d/math/WolfieMath.js"></script>
+
+        <!-- FOR SCENE MANAGEMENT -->
+        <script src="js/wolfie3d/scene/SceneComponent.js"></script>
+        <script src="js/wolfie3d/scene/SceneBuilder.js"></script>
+
+        <!-- HERE ARE THE wolfie3d/ui SCRIPTS -->
+        <script src="js/wolfie3d/ui/AppController.js"></script>
+
+        <!-- ALL OUR SCRIPTS ARE IN wolfie3d -->
+        <script src="js/wolfie3d/wolfie3d.js"></script>
+        
+        <!-- WE'LL BE USING THE glmatrix LIBRARY FOR OUR MATRIX MATH -->
+        <!--script src="js/glmatrix/glMatrix-0.9.5.min.js"></script-->
+        <!--script src="js/glmatrix2/gl-matrix.js"></script -->
+        <script src="js/wolfie3d/math/WolfieMath.js"></script>
+
+        <!-- WE'LL USE jQuery A BIT FOR USING THE DOM -->
+        <script src="js/jquery/jquery.min.js"></script>
+        <script src="js/jquery/jquery-ui.min.js"></script>
+
+        <script>
+            $(document).ready(function(){
+                // CONSTRUCT AND INITIALIZE OUR wolfie3d OBJECT
+                window.wolfie3d = new Wolfie3d();                
+                window.wolfie3d.init();
+
+                
+                var textCanvas = document.getElementById("text_canvas");
+                textCanvas.onclick = function(event) {
+                    // NOTE THAT WE USE THE SCENE BUILDER TO HARD CODE
+                    // SETUP THINGS FOR US TO TEST OUR RENDERING SYSTEM
+                    var scene = window.wolfie3d.scene;
+                    var builder = scene.builder;
+                    builder.addCameraPositionText();
+                    builder.addCameraLookAtText();
+                    builder.addCameraUpText();
+                    builder.addCameraRightText();
+                    
+                    // BUILD A WHITE SQUARE MODEL TYPE
+                    var whiteSquareModelType = new ModelType();
+                    builder.buildWhiteSquareModelType(whiteSquareModelType, function() {
+                        // AND NOW MAKE A MODEL OF THIS TYPE
+                        var model = new Model(whiteSquareModelType);
+                        model.setPosition(0, 0, -3);
+
+                        // MAKE AND ADD THE UNIFORMS TO THE MODEL
+                        var shader = whiteSquareModelType.shaderProgram;
+                        var projectionMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "projectionMatrix", false, window.wolfie3d.graphics.frustum.projectionMatrix);
+                        model.addUniform(projectionMatrixUniform, shader.program);
+                        var modelviewMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "modelviewMatrix", false, model.modelviewMatrix);
+                        model.addUniform(modelviewMatrixUniform, shader.program);
+                        scene.addSceneObject(model);                        
+                        window.wolfie3d.graphics.renderScene(scene);
+                    });
+                    var gradientSquareModelType = new ModelType();
+                    builder.buildGradientSquareModelType(gradientSquareModelType, function() {
+                        // AND NOW MAKE A MODEL OF THIS TYPE
+                        var model = new Model(gradientSquareModelType);
+                        model.setPosition(1, 0, -3);
+
+                        // MAKE AND ADD THE UNIFORMS TO THE MODEL
+                        var shader = gradientSquareModelType.shaderProgram;
+                        var projectionMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "projectionMatrix", false, window.wolfie3d.graphics.frustum.projectionMatrix);
+                        model.addUniform(projectionMatrixUniform, shader.program);
+                        var modelviewMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "modelviewMatrix", false, model.modelviewMatrix);
+                        model.addUniform(modelviewMatrixUniform, shader.program);
+        
+                        // NOW INIT THE SCENE OBJECT AND PUT IT IN THE SCENE
+                        scene.addSceneObject(model);                        
+                        window.wolfie3d.graphics.renderScene(scene);
+                    });
+                    
+                    var woodSquareModelType = new ModelType();
+                    builder.buildWoodSquareModelType(woodSquareModelType, function() {
+                        // AND NOW MAKE A MODEL OF THIS TYPE
+                        var model = new Model(woodSquareModelType);
+                        model.setPosition(2, 0, -3);
+                        model.texture = new Texture(0);
+                        model.texture.loadTexture("resources/textures/wood.png", function() {
+                            // MAKE AND ADD THE UNIFORMS TO THE MODEL
+                            var shader = woodSquareModelType.shaderProgram;
+                            var projectionMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "projectionMatrix", false, window.wolfie3d.graphics.frustum.projectionMatrix);
+                            model.addUniform(projectionMatrixUniform, shader.program);
+                            var modelviewMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "modelviewMatrix", false, model.modelviewMatrix);
+                            model.addUniform(modelviewMatrixUniform, shader.program);
+                            var textureSamplerUniform = new ShaderUniform(UniformType.SAMPLER, "textureSampler", false, model.texture.webGLtexture);
+                            model.addUniform(textureSamplerUniform, shader.program);
+        
+                            // NOW INIT THE SCENE OBJECT AND PUT IT IN THE SCENE
+                            scene.addSceneObject(model);                        
+                            window.wolfie3d.graphics.renderScene(scene);                            
+                        });
+                    });
+                }
+            });
+        </script>
+
+        <style>
+            #workspace {
+                position: absolute;
+                width: 100%;
+                left: 0px;
+                height: 100%;
+                top: 0px;
+                background-color: yellow;
+            }
+            #demo_canvas {
+                position:absolute;
+                width: 100%;
+                left: 0px;
+                height: 80%;
+                top: 0px;
+                background-color: greenyellow;
+            }
+            #text_canvas {
+                position: absolute;
+                width: 100%;
+                left: 0px;
+                height: 20%;
+                top: 80%;
+                background-color: royalblue;
+            }
+        </style>
+    </head>
+
+    <body>
+            <!-- HERE IS THE WORKSPACE, WHICH HAS 3 TABS -->
+            <div id="workspace">
+                <canvas id="demo_canvas"></canvas>
+                <canvas id="text_canvas"></canvas>
+            </div>
+        
+
+    </body>
+</html>
