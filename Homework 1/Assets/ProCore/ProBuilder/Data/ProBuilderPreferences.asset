@@ -41,10 +41,10 @@ MonoBehaviour:
   m_Material_keys:
   - pbDefaultMaterial
   m_Bool_values: 000100010000000001
-  m_Int_values: 0000000001000000020000000100000000000000020000000200000002000000
+  m_Int_values: 0000000000000000020000000100000000000000020000000200000002000000
   m_Float_values:
   - 0
-  - 300
+  - 0
   m_String_values:
   - Assets/ProCore/ProBuilder/Data/Default Material Palette.asset
   - RGBA(0.264, 0.066, 0.066, 1.000)
