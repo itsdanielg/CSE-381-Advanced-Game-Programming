@@ -113,7 +113,12 @@
                     builder.buildWoodSquareModelType(woodSquareModelType, function() {
                         // AND NOW MAKE A MODEL OF THIS TYPE
                         var model = new Model(woodSquareModelType);
-                        model.setPosition(2, 0, -3);
+                        // ---------------------- FLOOR --------------------- //
+                        model.setPosition(0, -1, 0);
+                        model.scale[0] = 10.0;
+                        model.scale[2] = 10.0;
+                        model.setRotation(1.57, 0, 0);
+                        // ----------------------- FLOOR --------------------- //
                         model.texture = new Texture(0);
                         model.texture.loadTexture("resources/textures/wood.png", function() {
                             // MAKE AND ADD THE UNIFORMS TO THE MODEL
@@ -130,6 +135,10 @@
                             window.wolfie3d.graphics.renderScene(scene);                            
                         });
                     });
+                    // ANIMATE
+                    setInterval(function() {
+                        window.wolfie3d.step();
+                    }, 20);
                 }
             });
         </script>

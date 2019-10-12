@@ -17,12 +17,48 @@ class Camera {
 
         // MAKE SURE THE CAMERA MATRIX IS ALWAYS UP TO DATE
         this.updateViewMatrix();
+
+        // CONSTANTS
+        this.movementSpeed = 0.1;
+        this.rotationalSpeed = 0.05;
     }
     
     move(incX, incY, incZ) {
         this.position[0] += incX;
         this.position[1] += incY;
         this.position[2] += incZ;
+        this.updateViewMatrix();
+    }
+
+    moveForward() {
+        var incX = this.lookAt[0] * this.movementSpeed;
+        var incY = this.lookAt[1] * this.movementSpeed;
+        var incZ = this.lookAt[2] * this.movementSpeed;
+        this.move(incX, incY, incZ);
+    }
+
+    moveBackward() {
+        var incX = this.lookAt[0] * -this.movementSpeed;
+        var incY = this.lookAt[1] * -this.movementSpeed;
+        var incZ = this.lookAt[2] * -this.movementSpeed;
+        this.move(incX, incY, incZ);
+    }
+
+    lookLeft() {
+        var rad = this.rotationalSpeed;
+        var x = Math.cos(rad) * this.lookAt[0] + Math.sin(rad) * this.lookAt[2];
+        var z = Math.sin(-rad) * this.lookAt[0] + Math.cos(rad) * this.lookAt[2];
+        this.lookAt[0] = x;
+        this.lookAt[2] = z;
+        this.updateViewMatrix();
+    }
+
+    lookRight() {
+        var rad = -this.rotationalSpeed;
+        var x = Math.cos(rad) * this.lookAt[0] + Math.sin(rad) * this.lookAt[2];
+        var z = Math.sin(-rad) * this.lookAt[0] + Math.cos(rad) * this.lookAt[2];
+        this.lookAt[0] = x;
+        this.lookAt[2] = z;
         this.updateViewMatrix();
     }
     
@@ -37,10 +73,11 @@ class Camera {
         wolfieMatrix4x4.translate(this.translateMatrix, this.translateMatrix, this.position);
 
         // COMPUTE THE CAMERA'S thetaX, thetaY, and thetaZ VALUES
-        this.rotation[0] = Math.asin(-this.lookAt[1]);
-        this.rotation[1] = Math.atan(this.lookAt[0]/this.lookAt[2]);
+        this.rotation[0] = -Math.asin(-this.lookAt[1]);
+        this.rotation[1] = Math.atan2(-this.lookAt[0], -this.lookAt[2]);
 
         // @todo DOUBLE CHECK ROTATION FOR z
+        this.rotation[2] = Math.atan(this.lookAt[1], this.lookAt[0]);
 
         // AND THEN USE THEM TO ROTATE THE CAMERA        
         wolfieMatrix4x4.rotate(this.rotateMatrix, this.rotateMatrix, this.rotation[0], [1, 0, 0]);

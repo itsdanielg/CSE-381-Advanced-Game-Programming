@@ -31,9 +31,10 @@ class Wolfie3d {
                 
         // THEN THE CONTROLLER FOR RESPONDING TO EVENTS
         this.controller = new AppController();
+        this.controller.init();
     }
     
     step() {
-        
+        this.graphics.renderScene(this.scene);
     }
 }

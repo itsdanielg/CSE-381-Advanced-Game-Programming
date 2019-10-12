@@ -25,25 +25,35 @@ class AppController {
     
     onKeyDown(event){
         var keyCode = event.keyCode;
-        var keys = window.wolfie3d.ui.controller.keys;
+        var keys = window.wolfie3d.controller.keys;
+        var camera = window.wolfie3d.graphics.camera;
         switch(keyCode) {
-            // DID THEY PRESS W or w?
+            // Move forward
             case keys.W:
             case keys.w:
-                console.log("W or w down?");
+                camera.moveForward();
                 break;
-        
-            // DID THEY PRESS A or a?
+            // Rotate left
             case keys.A:
             case keys.a:
-                console.log("A or a down?");
+                camera.lookLeft();
+                break;
+            // Move backward
+            case keys.S:
+            case keys.s:
+                camera.moveBackward();
+                break;
+            // Rotate right
+            case keys.D:
+            case keys.d:
+                camera.lookRight();
                 break;
         }
     }
 
     onKeyUp(event){
         var keyCode = event.keyCode;
-        var keys = window.wolfie3d.ui.controller.keys;
+        var keys = window.wolfie3d.controller.keys;
         switch(keyCode) {
             // DID THEY PRESS W or w?
             case keys.W:
