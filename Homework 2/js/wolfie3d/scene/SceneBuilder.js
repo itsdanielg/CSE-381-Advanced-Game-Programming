@@ -198,4 +198,104 @@ class SceneBuilder {
         });
         text.addTextToRender(newText);
     }
+
+    createCube(x, y, z, size, modelType, scene) {
+        this.buildWoodSquareModelType(modelType, function() {
+            var model = new Model(modelType);
+            model.setPosition(x, y, z-size/2);
+            model.scale[0] = size;
+            model.scale[1] = size;
+            model.texture = new Texture(0);
+            model.texture.loadTexture("resources/textures/brick.png", function() {
+                var shader = modelType.shaderProgram;
+                var projectionMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "projectionMatrix", false, window.wolfie3d.graphics.frustum.projectionMatrix);
+                model.addUniform(projectionMatrixUniform, shader.program);
+                var modelviewMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "modelviewMatrix", false, model.modelviewMatrix);
+                model.addUniform(modelviewMatrixUniform, shader.program);
+                var textureSamplerUniform = new ShaderUniform(UniformType.SAMPLER, "textureSampler", false, model.texture.webGLtexture);
+                model.addUniform(textureSamplerUniform, shader.program);
+                scene.addSceneObject(model);                          
+            });
+            var model2 = new Model(modelType);
+            model2.setPosition(x, y, z+size/2);
+            model2.scale[0] = size;
+            model2.scale[1] = size;
+            model2.texture = new Texture(0);
+            model2.texture.loadTexture("resources/textures/brick.png", function() {
+                var shader = modelType.shaderProgram;
+                var projectionMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "projectionMatrix", false, window.wolfie3d.graphics.frustum.projectionMatrix);
+                model2.addUniform(projectionMatrixUniform, shader.program);
+                var modelviewMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "modelviewMatrix", false, model2.modelviewMatrix);
+                model2.addUniform(modelviewMatrixUniform, shader.program);
+                var textureSamplerUniform = new ShaderUniform(UniformType.SAMPLER, "textureSampler", false, model2.texture.webGLtexture);
+                model2.addUniform(textureSamplerUniform, shader.program);
+                scene.addSceneObject(model2);                            
+            });
+            var model3 = new Model(modelType);
+            model3.setPosition(x, y+size/2, z);
+            model3.setRotation(Math.PI/2, 0, 0);
+            model3.scale[0] = size;
+            model3.scale[2] = size;
+            model3.texture = new Texture(0);
+            model3.texture.loadTexture("resources/textures/brick.png", function() {
+                var shader = modelType.shaderProgram;
+                var projectionMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "projectionMatrix", false, window.wolfie3d.graphics.frustum.projectionMatrix);
+                model3.addUniform(projectionMatrixUniform, shader.program);
+                var modelviewMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "modelviewMatrix", false, model3.modelviewMatrix);
+                model3.addUniform(modelviewMatrixUniform, shader.program);
+                var textureSamplerUniform = new ShaderUniform(UniformType.SAMPLER, "textureSampler", false, model3.texture.webGLtexture);
+                model3.addUniform(textureSamplerUniform, shader.program);
+                scene.addSceneObject(model3);                           
+            });
+            var model4 = new Model(modelType);
+            model4.setPosition(x, y-size/2, z);
+            model4.setRotation(Math.PI/2, 0, 0);
+            model4.scale[0] = size;
+            model4.scale[2] = size;
+            model4.texture = new Texture(0);
+            model4.texture.loadTexture("resources/textures/brick.png", function() {
+                var shader = modelType.shaderProgram;
+                var projectionMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "projectionMatrix", false, window.wolfie3d.graphics.frustum.projectionMatrix);
+                model4.addUniform(projectionMatrixUniform, shader.program);
+                var modelviewMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "modelviewMatrix", false, model4.modelviewMatrix);
+                model4.addUniform(modelviewMatrixUniform, shader.program);
+                var textureSamplerUniform = new ShaderUniform(UniformType.SAMPLER, "textureSampler", false, model4.texture.webGLtexture);
+                model4.addUniform(textureSamplerUniform, shader.program);
+                scene.addSceneObject(model4);                          
+            });
+            var model5 = new Model(modelType);
+            model5.setPosition(x-size/2, y, z);
+            model5.setRotation(0, Math.PI/2, 0);
+            model5.scale[1] = size;
+            model5.scale[2] = size;
+            model5.texture = new Texture(0);
+            model5.texture.loadTexture("resources/textures/brick.png", function() {
+                var shader = modelType.shaderProgram;
+                var projectionMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "projectionMatrix", false, window.wolfie3d.graphics.frustum.projectionMatrix);
+                model5.addUniform(projectionMatrixUniform, shader.program);
+                var modelviewMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "modelviewMatrix", false, model5.modelviewMatrix);
+                model5.addUniform(modelviewMatrixUniform, shader.program);
+                var textureSamplerUniform = new ShaderUniform(UniformType.SAMPLER, "textureSampler", false, model5.texture.webGLtexture);
+                model5.addUniform(textureSamplerUniform, shader.program);
+                scene.addSceneObject(model5);                        
+            });
+            var model6 = new Model(modelType);
+            model6.setPosition(x+size/2, y, z);
+            model6.setRotation(0, Math.PI/2, 0);
+            model6.scale[1] = size;
+            model6.scale[2] = size;
+            model6.texture = new Texture(0);
+            model6.texture.loadTexture("resources/textures/brick.png", function() {
+                var shader = modelType.shaderProgram;
+                var projectionMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "projectionMatrix", false, window.wolfie3d.graphics.frustum.projectionMatrix);
+                model6.addUniform(projectionMatrixUniform, shader.program);
+                var modelviewMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "modelviewMatrix", false, model6.modelviewMatrix);
+                model6.addUniform(modelviewMatrixUniform, shader.program);
+                var textureSamplerUniform = new ShaderUniform(UniformType.SAMPLER, "textureSampler", false, model6.texture.webGLtexture);
+                model6.addUniform(textureSamplerUniform, shader.program);
+                scene.addSceneObject(model6);
+            });
+            window.wolfie3d.graphics.renderScene(scene);   
+        });
+    }
 }

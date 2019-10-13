@@ -75,49 +75,50 @@
                     builder.addCameraUpText();
                     builder.addCameraRightText();
                     
-                    // BUILD A WHITE SQUARE MODEL TYPE
-                    var whiteSquareModelType = new ModelType();
-                    builder.buildWhiteSquareModelType(whiteSquareModelType, function() {
-                        // AND NOW MAKE A MODEL OF THIS TYPE
-                        var model = new Model(whiteSquareModelType);
-                        model.setPosition(0, 0, -3);
+                    // // BUILD A WHITE SQUARE MODEL TYPE
+                    // var whiteSquareModelType = new ModelType();
+                    // builder.buildWhiteSquareModelType(whiteSquareModelType, function() {
+                    //     // AND NOW MAKE A MODEL OF THIS TYPE
+                    //     var model = new Model(whiteSquareModelType);
+                    //     model.setPosition(0, 0, -3);
 
-                        // MAKE AND ADD THE UNIFORMS TO THE MODEL
-                        var shader = whiteSquareModelType.shaderProgram;
-                        var projectionMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "projectionMatrix", false, window.wolfie3d.graphics.frustum.projectionMatrix);
-                        model.addUniform(projectionMatrixUniform, shader.program);
-                        var modelviewMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "modelviewMatrix", false, model.modelviewMatrix);
-                        model.addUniform(modelviewMatrixUniform, shader.program);
-                        scene.addSceneObject(model);                        
-                        window.wolfie3d.graphics.renderScene(scene);
-                    });
-                    var gradientSquareModelType = new ModelType();
-                    builder.buildGradientSquareModelType(gradientSquareModelType, function() {
-                        // AND NOW MAKE A MODEL OF THIS TYPE
-                        var model = new Model(gradientSquareModelType);
-                        model.setPosition(1, 0, -3);
+                    //     // MAKE AND ADD THE UNIFORMS TO THE MODEL
+                    //     var shader = whiteSquareModelType.shaderProgram;
+                    //     var projectionMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "projectionMatrix", false, window.wolfie3d.graphics.frustum.projectionMatrix);
+                    //     model.addUniform(projectionMatrixUniform, shader.program);
+                    //     var modelviewMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "modelviewMatrix", false, model.modelviewMatrix);
+                    //     model.addUniform(modelviewMatrixUniform, shader.program);
+                    //     scene.addSceneObject(model);                        
+                    //     window.wolfie3d.graphics.renderScene(scene);
+                    // });
+                    // var gradientSquareModelType = new ModelType();
+                    // builder.buildGradientSquareModelType(gradientSquareModelType, function() {
+                    //     // AND NOW MAKE A MODEL OF THIS TYPE
+                    //     var model = new Model(gradientSquareModelType);
+                    //     model.setPosition(1, 0, -3);
 
-                        // MAKE AND ADD THE UNIFORMS TO THE MODEL
-                        var shader = gradientSquareModelType.shaderProgram;
-                        var projectionMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "projectionMatrix", false, window.wolfie3d.graphics.frustum.projectionMatrix);
-                        model.addUniform(projectionMatrixUniform, shader.program);
-                        var modelviewMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "modelviewMatrix", false, model.modelviewMatrix);
-                        model.addUniform(modelviewMatrixUniform, shader.program);
+                    //     // MAKE AND ADD THE UNIFORMS TO THE MODEL
+                    //     var shader = gradientSquareModelType.shaderProgram;
+                    //     var projectionMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "projectionMatrix", false, window.wolfie3d.graphics.frustum.projectionMatrix);
+                    //     model.addUniform(projectionMatrixUniform, shader.program);
+                    //     var modelviewMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "modelviewMatrix", false, model.modelviewMatrix);
+                    //     model.addUniform(modelviewMatrixUniform, shader.program);
         
-                        // NOW INIT THE SCENE OBJECT AND PUT IT IN THE SCENE
-                        scene.addSceneObject(model);                        
-                        window.wolfie3d.graphics.renderScene(scene);
-                    });
-                    
+                    //     // NOW INIT THE SCENE OBJECT AND PUT IT IN THE SCENE
+                    //     scene.addSceneObject(model);                        
+                    //     window.wolfie3d.graphics.renderScene(scene);
+                    // });
+
+                    // BUILD FLOOR
                     var woodSquareModelType = new ModelType();
                     builder.buildWoodSquareModelType(woodSquareModelType, function() {
                         // AND NOW MAKE A MODEL OF THIS TYPE
                         var model = new Model(woodSquareModelType);
                         // ---------------------- FLOOR --------------------- //
-                        model.setPosition(0, -1, 0);
-                        model.scale[0] = 10.0;
-                        model.scale[2] = 10.0;
-                        model.setRotation(1.57, 0, 0);
+                        model.setPosition(0, -2.001, 0);
+                        model.scale[0] = 15.0;
+                        model.scale[2] = 15.0;
+                        model.setRotation(Math.PI/2, 0, 0);
                         // ----------------------- FLOOR --------------------- //
                         model.texture = new Texture(0);
                         model.texture.loadTexture("resources/textures/wood.png", function() {
@@ -132,9 +133,16 @@
         
                             // NOW INIT THE SCENE OBJECT AND PUT IT IN THE SCENE
                             scene.addSceneObject(model);                        
-                            window.wolfie3d.graphics.renderScene(scene);                            
+                            window.wolfie3d.graphics.renderScene(scene);           
                         });
                     });
+                    
+                    var brickSquareModelType = new ModelType();
+                    builder.createCube(-2, -1,-2, 2, brickSquareModelType, scene);
+                    builder.createCube(4, -1.5, -3, 1, brickSquareModelType, scene);
+                    builder.createCube(-5, -1.5, 6, 1, brickSquareModelType, scene);
+                    builder.createCube(4, -0.5, 4, 3, brickSquareModelType, scene);
+                    
                     // ANIMATE
                     setInterval(function() {
                         window.wolfie3d.step();
