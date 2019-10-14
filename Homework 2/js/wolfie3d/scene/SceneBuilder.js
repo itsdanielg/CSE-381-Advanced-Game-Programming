@@ -153,6 +153,32 @@ class SceneBuilder {
         });
     }
 
+    buildGradiantTriangleModelType(modelType, callback) {
+        // LOAD SHADER HERE        
+        var webGL = window.wolfie3d.graphics.webGL;
+        var aVertexAttribute = new ShaderAttribute(0, "aVertex", webGL.FLOAT, 3, 0, 0, BufferType.VERTEX_BUFFER); 
+        var aColorAttribute = new ShaderAttribute(1, "aColor", webGL.FLOAT, 4, 0, 0, BufferType.COLOR_BUFFER);
+        var attributesData = new Array();
+        attributesData[aVertexAttribute.name] = aVertexAttribute;
+        attributesData[aColorAttribute.name] = aColorAttribute;
+        this.buildShaderProgram(PrefabShader.SIMPLE_GRADIENT, attributesData, function() {
+            var scene = window.wolfie3d.scene;
+            var program = scene.shaderPrograms[PrefabShader.SIMPLE_GRADIENT];
+            var verticesData = new Array(  0.0,  0.5,  0.0,
+                                            0.5, -0.5,  -0.5,
+                                            -0.5, -0.5,  -0.5,
+                                            -0.5, -0.5, 0.5);
+            var indicesData = new Array(0, 1, 2, 0, 2, 3);
+            var colorData = new Array(  1.0, 0.0, 0.0, 1.0,
+                                        0.0, 1.0, 0.0, 1.0,
+                                        0.0, 0.0, 1.0, 1.0,
+                                        0.0, 1.0, 0.0, 1.0);
+            var numVertices = 4;
+            modelType.init(program, numVertices, verticesData, indicesData, colorData, null, null);
+            callback();
+        });
+    }
+
     // USED FOR DISPLAYING TEXT    
     addCameraPositionText() {
         var text = window.wolfie3d.graphics.text;
@@ -295,7 +321,33 @@ class SceneBuilder {
                 model6.addUniform(textureSamplerUniform, shader.program);
                 scene.addSceneObject(model6);
             });
-            window.wolfie3d.graphics.renderScene(scene);   
+        });
+    }
+
+    createPyramid(x, y, z, size, gradientTriangleModelType, scene) {
+        this.buildGradiantTriangleModelType(gradientTriangleModelType, function() {
+            var model = new Model(gradientTriangleModelType);
+            model.setPosition(x, y+size/2, z);
+            model.scale[0] = size;
+            model.scale[1] = size;
+            model.scale[2] = size;
+            var shader = gradientTriangleModelType.shaderProgram;
+            var projectionMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "projectionMatrix", false, window.wolfie3d.graphics.frustum.projectionMatrix);
+            model.addUniform(projectionMatrixUniform, shader.program);
+            var modelviewMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "modelviewMatrix", false, model.modelviewMatrix);
+            model.addUniform(modelviewMatrixUniform, shader.program);
+            scene.addSceneObject(model);
+            model = new Model(gradientTriangleModelType);
+            model.setPosition(x, y+size/2, z);
+            model.setRotation(0, Math.PI, 0);
+            model.scale[0] = size;
+            model.scale[1] = size;
+            model.scale[2] = size;
+            projectionMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "projectionMatrix", false, window.wolfie3d.graphics.frustum.projectionMatrix);
+            model.addUniform(projectionMatrixUniform, shader.program);
+            modelviewMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "modelviewMatrix", false, model.modelviewMatrix);
+            model.addUniform(modelviewMatrixUniform, shader.program);
+            scene.addSceneObject(model);
         });
     }
 }

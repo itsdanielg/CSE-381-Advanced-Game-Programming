@@ -91,23 +91,6 @@
                     //     scene.addSceneObject(model);                        
                     //     window.wolfie3d.graphics.renderScene(scene);
                     // });
-                    // var gradientSquareModelType = new ModelType();
-                    // builder.buildGradientSquareModelType(gradientSquareModelType, function() {
-                    //     // AND NOW MAKE A MODEL OF THIS TYPE
-                    //     var model = new Model(gradientSquareModelType);
-                    //     model.setPosition(1, 0, -3);
-
-                    //     // MAKE AND ADD THE UNIFORMS TO THE MODEL
-                    //     var shader = gradientSquareModelType.shaderProgram;
-                    //     var projectionMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "projectionMatrix", false, window.wolfie3d.graphics.frustum.projectionMatrix);
-                    //     model.addUniform(projectionMatrixUniform, shader.program);
-                    //     var modelviewMatrixUniform = new ShaderUniform(UniformType.UNIFORMMATRIX4FV, "modelviewMatrix", false, model.modelviewMatrix);
-                    //     model.addUniform(modelviewMatrixUniform, shader.program);
-        
-                    //     // NOW INIT THE SCENE OBJECT AND PUT IT IN THE SCENE
-                    //     scene.addSceneObject(model);                        
-                    //     window.wolfie3d.graphics.renderScene(scene);
-                    // });
 
                     // BUILD FLOOR
                     var woodSquareModelType = new ModelType();
@@ -116,8 +99,8 @@
                         var model = new Model(woodSquareModelType);
                         // ---------------------- FLOOR --------------------- //
                         model.setPosition(0, -2.001, 0);
-                        model.scale[0] = 15.0;
-                        model.scale[2] = 15.0;
+                        model.scale[0] = 100.0;
+                        model.scale[2] = 100.0;
                         model.setRotation(Math.PI/2, 0, 0);
                         // ----------------------- FLOOR --------------------- //
                         model.texture = new Texture(0);
@@ -142,6 +125,15 @@
                     builder.createCube(4, -1.5, -3, 1, brickSquareModelType, scene);
                     builder.createCube(-5, -1.5, 6, 1, brickSquareModelType, scene);
                     builder.createCube(4, -0.5, 4, 3, brickSquareModelType, scene);
+
+                    var gradientTriangleModelType = new ModelType();
+                    builder.createPyramid(0, -2, -10, 5, gradientTriangleModelType, scene);
+                    gradientTriangleModelType = new ModelType();
+                    builder.createPyramid(-8, -2, 2, 2, gradientTriangleModelType, scene);
+                    gradientTriangleModelType = new ModelType();
+                    builder.createPyramid(0, -2, 8, 3, gradientTriangleModelType, scene);
+                    gradientTriangleModelType = new ModelType();
+                    builder.createPyramid(7, -2, 0, 1, gradientTriangleModelType, scene);
                     
                     // ANIMATE
                     setInterval(function() {
