@@ -123,5 +123,11 @@ class Shader {
         // APPLY DIFFUSE LIGHTING
         var diffuseLightPos = webGL.getUniformLocation(this.program, 'diffuseLightPos');
         webGL.uniform3fv(diffuseLightPos, [-15.0, 10.0, 0.0]);
+
+        // APPLY SPECULAR LIGHTING
+        var specularLightColor = webGL.getUniformLocation(this.program, 'specularLightColor');
+        webGL.uniform3fv(specularLightColor, [1.0, 1.0, 1.0]);
+        var shininess = webGL.getUniformLocation(this.program, 'shininess');
+        webGL.uniform1f(shininess, 10.0);
     }j
 }

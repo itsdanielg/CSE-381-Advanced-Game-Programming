@@ -15,6 +15,9 @@ attribute vec3 aVertexNormal;
 varying vec3 vertex;
 varying vec3 normal;
 
+uniform vec3 specularLightColor;
+uniform float shininess;
+
 void main(void) {
     vertex = vec3(modelviewMatrix * aVertex);
     normal = vec3(modelviewMatrix * aVertex);
