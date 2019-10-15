@@ -115,5 +115,9 @@ class Shader {
         
         // GET THE ATTRIBUTE BINDINGS
         this.loadAttributes();
-    }
+
+        // APPLY AMBIENT LIGHTING
+        var ambientLocation = webGL.getUniformLocation(this.program, 'ambientLight');
+        webGL.uniform3fv(ambientLocation, [0.6, 0.8, 0.7]);
+    }j
 }
