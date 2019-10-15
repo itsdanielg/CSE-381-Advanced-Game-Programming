@@ -119,5 +119,9 @@ class Shader {
         // APPLY AMBIENT LIGHTING
         var ambientLocation = webGL.getUniformLocation(this.program, 'ambientLight');
         webGL.uniform3fv(ambientLocation, [0.6, 0.8, 0.7]);
+
+        // APPLY DIFFUSE LIGHTING
+        var diffuseLightPos = webGL.getUniformLocation(this.program, 'diffuseLightPos');
+        webGL.uniform3fv(diffuseLightPos, [-15.0, 10.0, 0.0]);
     }j
 }
