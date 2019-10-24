@@ -86,8 +86,10 @@ class SceneBuilder {
         var webGL = window.wolfie3d.graphics.webGL;
         var aVertexAttribute = new ShaderAttribute(0, "aVertex", webGL.FLOAT, 3, 0, 0, BufferType.VERTEX_BUFFER); 
         var aTextureCoordinateAttribute = new ShaderAttribute(1, "aTextureCoordinate", webGL.FLOAT, 2, 0, 0, BufferType.TEXTURE_COORDINATE_BUFFER);
+        var aNormalAttribute = new ShaderAttribute(0, "aNormal", webGL.FLOAT, 3, 0, 0, BufferType.NORMAL_BUFFER); 
         var attributesData = new Array();
         attributesData[aVertexAttribute.name] = aVertexAttribute;
+        attributesData[aNormalAttribute.name] = aNormalAttribute;
         attributesData[aTextureCoordinateAttribute.name] = aTextureCoordinateAttribute;
         this.buildShaderProgram(PrefabShader.WOOD_TEXTURED, attributesData, function() {
             var scene = window.wolfie3d.scene;
@@ -96,13 +98,17 @@ class SceneBuilder {
                                             -.5, -.5,  0.0,
                                              .5, -.5,  0.0,
                                              .5,  .5,  0.0 );
+            var normalData = new Array( -1.0, 1.0, 0.0,
+                                        -1.0, -1.0, 0.0,
+                                        1.0, -1.0, 0.0,
+                                        1.0, 1.0, 0.0);
             var indicesData = new Array(0, 1, 2, 0, 2, 3);
             var numVertices = 4;
             var textureCoordinatesData = new Array( 0.0, 1.0,
                                                     0.0, 0.0,
                                                     1.0, 0.0,
                                                     1.0, 1.0);
-            modelType.init(program, numVertices, verticesData, indicesData, null, null, textureCoordinatesData);
+            modelType.init(program, numVertices, verticesData, indicesData, null, normalData, textureCoordinatesData);
             callback();
         });
     }
@@ -158,8 +164,10 @@ class SceneBuilder {
         var webGL = window.wolfie3d.graphics.webGL;
         var aVertexAttribute = new ShaderAttribute(0, "aVertex", webGL.FLOAT, 3, 0, 0, BufferType.VERTEX_BUFFER); 
         var aColorAttribute = new ShaderAttribute(1, "aColor", webGL.FLOAT, 4, 0, 0, BufferType.COLOR_BUFFER);
+        var aNormalAttribute = new ShaderAttribute(0, "aNormal", webGL.FLOAT, 3, 0, 0, BufferType.NORMAL_BUFFER); 
         var attributesData = new Array();
         attributesData[aVertexAttribute.name] = aVertexAttribute;
+        attributesData[aNormalAttribute.name] = aNormalAttribute;
         attributesData[aColorAttribute.name] = aColorAttribute;
         this.buildShaderProgram(PrefabShader.SIMPLE_GRADIENT, attributesData, function() {
             var scene = window.wolfie3d.scene;
@@ -168,13 +176,17 @@ class SceneBuilder {
                                             0.5, -0.5,  -0.5,
                                             -0.5, -0.5,  -0.5,
                                             -0.5, -0.5, 0.5);
+            var normalData = new Array( 0.0, 1.0, 0.0,
+                                        1.0, -1.0, -1.0,
+                                        -1.0, -1.0, -1.0,
+                                        -1.0, -1.0, 1.0);
             var indicesData = new Array(0, 1, 2, 0, 2, 3);
             var colorData = new Array(  1.0, 0.0, 0.0, 1.0,
                                         0.0, 1.0, 0.0, 1.0,
                                         0.0, 0.0, 1.0, 1.0,
                                         0.0, 1.0, 0.0, 1.0);
             var numVertices = 4;
-            modelType.init(program, numVertices, verticesData, indicesData, colorData, null, null);
+            modelType.init(program, numVertices, verticesData, indicesData, colorData, normalData, null);
             callback();
         });
     }

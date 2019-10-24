@@ -1,6 +1,7 @@
 precision mediump float;
 
 attribute vec3 aVertex;
+attribute vec3 aNormal;
 attribute vec4 aColor;
 
 uniform mat4 modelviewMatrix;
@@ -20,7 +21,7 @@ uniform float shininess;
 
 void main() {
     vertex = vec3(modelviewMatrix * vec4(aVertex, 1.0));
-    normal = vec3(modelviewMatrix * vec4(aVertex, 0.0));
+    normal = vec3(modelviewMatrix * vec4(aNormal, 0.0));
     gl_Position = projectionMatrix * modelviewMatrix * vec4(aVertex, 1.0);
     color = aColor;
 }
